@@ -1,4 +1,6 @@
 local Players = game:GetService("Players")
+local HttpService = game:GetService("HttpService")
+
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui", 5)
 
@@ -6,57 +8,22 @@ if not PlayerGui then
     error("Failed to find PlayerGui for local player")
 end
 
--- Создаем ScreenGui
+-- Create ScreenGui
 local singularityGui = Instance.new("ScreenGui")
 singularityGui.Name = "SingularityGui"
 singularityGui.ResetOnSpawn = false
 singularityGui.Parent = PlayerGui
 
--- Структура GUI в виде Lua-таблицы
+-- GUI structure as Lua table
 local menuData = {
     Children = {
-        {
-            ClassName = "LocalScript",
-            Name = "ALScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "LocalScript",
-            Name = "NoclipScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "LocalScript",
-            Name = "TeleportScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "LocalScript",
-            Name = "WalkspeedScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "LocalScript",
-            Name = "JumpheightScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "UICorner",
-            Name = "Corner",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "UIStroke",
-            Name = "UIStroke",
-            Properties = {},
-            Children = {}
-        },
+        {ClassName = "LocalScript", Name = "ALScript", Properties = {}, Children = {}},
+        {ClassName = "LocalScript", Name = "NoclipScript", Properties = {}, Children = {}},
+        {ClassName = "LocalScript", Name = "TeleportScript", Properties = {}, Children = {}},
+        {ClassName = "LocalScript", Name = "WalkspeedScript", Properties = {}, Children = {}},
+        {ClassName = "LocalScript", Name = "JumpheightScript", Properties = {}, Children = {}},
+        {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
+        {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
         {
             ClassName = "Frame",
             Name = "UpFrame",
@@ -68,18 +35,8 @@ local menuData = {
                 BackgroundColor3 = { R = 0.05882353335618973, G = 0.05882353335618973, B = 0.05882353335618973 }
             },
             Children = {
-                {
-                    ClassName = "UICorner",
-                    Name = "Corner",
-                    Properties = {},
-                    Children = {}
-                },
-                {
-                    ClassName = "UIStroke",
-                    Name = "UIStroke",
-                    Properties = {},
-                    Children = {}
-                },
+                {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
+                {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
                 {
                     ClassName = "TextLabel",
                     Name = "Title",
@@ -103,7 +60,7 @@ local menuData = {
                         Visible = true,
                         Image = "rbxassetid://112257173523450",
                         BackgroundTransparency = 1,
-                        Position = { XScale = 0.414999991 coleção do usuário: 65534975, YScale = 0.15199999511241914, XOffset = 0, YOffset = 0 },
+                        Position = { XScale = 0.41499999165534975, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
                         ImageTransparency = 0,
                         ImageColor3 = { R = 1, G = 1, B = 1 },
                         Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
@@ -118,8 +75,8 @@ local menuData = {
                         Visible = true,
                         Image = "rbxassetid://139471830119217",
                         BackgroundTransparency = 1,
-                        Position = { XScale = 0.550000011920929, YScale = 0.15199999511241914, XOffset = 0, YOffset = 0 },
- жирный текст                        ImageTransparency = 0,
+                        Position = { XScale = 0.550000011920929, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
+                        ImageTransparency = 0,
                         ImageColor3 = { R = 1, G = 1, B = 1 },
                         Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
@@ -133,7 +90,7 @@ local menuData = {
                         Visible = true,
                         Image = "rbxassetid://140266485849836",
                         BackgroundTransparency = 1,
-                        Position = { XScale = 0.699999988079071, YScale = 0.15199999511241914, XOffset = 0, YOffset = 0 },
+                        Position = { XScale = 0.699999988079071, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
                         ImageTransparency = 0,
                         ImageColor3 = { R = 1, G = 1, B = 1 },
                         Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
@@ -148,7 +105,7 @@ local menuData = {
                         Visible = true,
                         Image = "rbxassetid://80697630368344",
                         BackgroundTransparency = 1,
-                        Position = { XScale = 0.8500000238418579, YScale = 0.15199999511241914, XOffset = 0, YOffset = 0 },
+                        Position = { XScale = 0.8500000238418579, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
                         ImageTransparency = 0,
                         ImageColor3 = { R = 1, G = 1, B = 1 },
                         Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
@@ -184,12 +141,7 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 },
                 {
@@ -207,12 +159,7 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 },
                 {
@@ -230,22 +177,12 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 }
             }
         },
-        {
-            ClassName = "LocalScript",
-            Name = "DragScript",
-            Properties = {},
-            Children = {}
-        },
+        {ClassName = "LocalScript", Name = "DragScript", Properties = {}, Children = {}},
         {
             ClassName = "Frame",
             Name = "AutoLockFrame",
@@ -272,12 +209,7 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 },
                 {
@@ -295,12 +227,7 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 0.6666666865348816, B = 0 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 },
                 {
@@ -318,12 +245,7 @@ local menuData = {
                         BackgroundColor3 = { R = 0.27843138575553896, G = 0.27843138575553896, B = 0.27843138575553896 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 },
                 {
@@ -386,12 +308,7 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 1, B = 1 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 }
             }
@@ -422,28 +339,13 @@ local menuData = {
                         BackgroundColor3 = { R = 1, G = 0.6666666865348816, B = 0 }
                     },
                     Children = {
-                        {
-                            ClassName = "UICorner",
-                            Name = "UICorner",
-                            Properties = {},
-                            Children = {}
-                        }
+                        {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
                     }
                 }
             }
         },
-        {
-            ClassName = "LocalScript",
-            Name = "PagesScript",
-            Properties = {},
-            Children = {}
-        },
-        {
-            ClassName = "LocalScript",
-            Name = "LocalScript",
-            Properties = {},
-            Children = {}
-        },
+        {ClassName = "LocalScript", Name = "PagesScript", Properties = {}, Children = {}},
+        {ClassName = "LocalScript", Name = "LocalScript", Properties = {}, Children = {}},
         {
             ClassName = "Frame",
             Name = "Singularity",
@@ -459,7 +361,7 @@ local menuData = {
     }
 }
 
--- Функция создания GUI из таблицы
+-- Function to create GUI from table
 local function createFromTable(parent, items)
     for _, item in ipairs(items) do
         local obj = Instance.new(item.ClassName)
@@ -492,7 +394,7 @@ local function createFromTable(parent, items)
     end
 end
 
--- Создаем GUI
+-- Create GUI
 local success, createError = pcall(function()
     createFromTable(singularityGui, menuData.Children)
 end)
@@ -500,13 +402,13 @@ if not success then
     error("Failed to create GUI: " .. tostring(createError))
 end
 
--- Проверяем наличие основного фрейма
+-- Check for main frame
 local singularityFrame = singularityGui:FindFirstChild("Singularity", true)
 if not singularityFrame then
     error("Failed to find Frame 'Singularity' in menu data")
 end
 
--- Список скриптов для загрузки
+-- List of scripts to load
 local scriptsList = {
     ALScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/ALScript.lua",
     NoclipScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/NoclipScript.lua",
@@ -518,38 +420,43 @@ local scriptsList = {
     UnhookScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/UnhookScript.lua"
 }
 
--- Асинхронная загрузка скриптов
-local function loadScripts()
-    for name, url in pairs(scriptsList) do
-        local success, scriptContent = pcall(function()
-            return game:HttpGet(url)
-        end)
-
-        if success and scriptContent and scriptContent ~= "" then
-            local ran, err = pcall(function()
-                local func = loadstring(scriptContent)
-                if func then
-                    func()
-                else
-                    warn("Failed to compile script " .. name)
-                end
+-- Check if loadstring is available
+if not loadstring then
+    warn("loadstring is not available in this environment. Script execution skipped.")
+else
+    -- Async script loading
+    local function loadScripts()
+        for name, url in pairs(scriptsList) do
+            local success, scriptContent = pcall(function()
+                return game:HttpGet(url)
             end)
-            if not ran then
-                warn("Failed to execute " .. name .. ": " .. tostring(err))
+
+            if success and scriptContent and scriptContent ~= "" then
+                local ran, err = pcall(function()
+                    local func = loadstring(scriptContent)
+                    if func then
+                        func()
+                    else
+                        warn("Failed to compile script " .. name)
+                    end
+                end)
+                if not ran then
+                    warn("Failed to execute " .. name .. ": " .. tostring(err))
+                end
+            else
+                warn("Failed to load " .. name .. " from " .. url)
             end
-        else
-            warn("Failed to load " .. name .. " from " .. url)
         end
+    end
+
+    -- Run script loading
+    local success, loadError = pcall(loadScripts)
+    if not success then
+        warn("Failed to load scripts: " .. tostring(loadError))
     end
 end
 
--- Запускаем загрузку скриптов
-local success, loadError = pcall(loadScripts)
-if not success then
-    warn("Failed to load scripts: " .. tostring(loadError))
-end
-
--- Защита от повторного запуска
+-- Cleanup on GUI removal
 singularityGui.AncestryChanged:Connect(function()
     if not singularityGui:IsDescendantOf(game) then
         warn("GUI was removed, cleaning up resources")
