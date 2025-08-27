@@ -21,376 +21,6 @@ local menuData = {
                 BackgroundTransparency = 0,
                 Position = { XScale = 0.3227092921733856, XOffset = 0, YScale = 0.3364759385585785, YOffset = 0 },
                 Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 234 },
-                BackgroundColor3 = { R = 0.11372549831867218, G = 0.11372549831867218, B = 0.113725498318672className = "Frame",
-                    Name = "UpFrame",
-                    Properties = {
-                        Visible = true,
-                        BackgroundTransparency = 0.25,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.2222222238779068, YOffset = 0 },
-                        Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 46 },
-                        BackgroundColor3 = { R = 0.05882353335618973, G = 0.05882353335618973, B = 0.05882353335618973 }
-                    },
-                    Children = {
-                        {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
-                        {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
-                        {
-                            ClassName = "TextLabel",
-                            Name = "Title",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 0.6666666865348816, B = 0 },
-                                Text = "Singularity",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 1,
-                                Position = { XScale = 0.031141867861151696, XOffset = 0, YScale = 0.21739129722118379, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 91, YScale = 0, YOffset = 27 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        },
-                        {
-                            ClassName = "ImageButton",
-                            Name = "PlayerButton",
-                            Properties = {
-                                Visible = true,
-                                Image =Sel = 0, XOffset = 31, YScale = 0, YOffset = 32 },
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        },
-                        {
-                            ClassName = "ImageButton",
-                            Name = "AutoLockButton",
-                            Properties = {
-                                Visible = true,
-                                Image = "rbxassetid://139471830119217",
-                                BackgroundTransparency = 1,
-                               ImaPosition = { XScale = 0.550000011920929, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
-                                ImageTransparency = 0,
-                                ImageColor3 = { R = 1, G = 1, B = 1 },
-                                Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        },
-                        {
-                            ClassName = "ImageButton",
-                            Name = "MiscButton",
-                            Properties = {
-                                Visible = true,
-                                Image = "rbxassetid://140266485849836",
-                                BackgroundTransparency = 1,
-                                Position = { XScale = 0.699999988。つまり071, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
-                                ImageTransparency = 0,
-                                ImageColor3 = { R = 1, G = 1, B = 1 },
-                                Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        },
-                        {
-                            ClassName = "ImageButton",
-                            Name = "SettingsButton",
-                            Properties = {
-                                Visible = true,
-                                Image = "rbxassetid://80697630368344",
-                                BackgroundTransparency = 1,
-                                Position = { XScale = 0.8500000238418579, XOffset = 0, YScale = 0.15199999511241914, YOffset = 0 },
-                                ImageTransparency = 0,
-                                ImageColor3 = { R = 1, G = 1, B = 1 },
-                                Size = { XScale = 0, XOffset = 31, YScale = 0, YOffset = 32 },
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        }
-                    }
-                },
-                {
-                    ClassName = "Frame",
-                    Name = "PlayerFrame",
-                    Properties = {
-                        Visible = false,
-                        BackgroundTransparency = 1,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.0020438951905816795, YOffset = 0 },
-                        Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 233 },
-                        BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                    },
-                    Children = {
-                        {
-                            ClassName = "TextButton",
-                            Name = "NoclipButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Noclip",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0.800000011920929,
-                                Position = { XScale = 0.013840830884873867, XOffset = 0, YScale = 0.030042918398976327, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        },
-                        {
-                            ClassName = "TextButton",
-                            Name = "WalkspeedButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Walkspeed",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0.800000011920929,
-                                Position = { XScale = 0.013840830884873867, XOffset = 0, YScale = 0.12999999523162843, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        },
-                        {
-                            ClassName = "TextButton",
-                            Name = "JumpheightButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Jumpheight",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0.800000011920929,
-                                Position = { XScale = 0.013840830884873867, XOffset = 0, YScale = 0.23000000417232514, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        }
-                    }
-                },
-                {
-                    ClassName = "Frame",
-                    Name = "AutoLockFrame",
-                    Properties = {
-                        Visible = false,
-                        BackgroundTransparency = 1,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.0020438951905816795, YOffset = 0 },
-                        Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 233 },
-                        BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                    },
-                    Children = {
-                        {
-                            ClassName = "TextButton",
-                            Name = "ALButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Enabled",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0.800000011920929,
-                                Position = { XScale = 0.013840936124324799, XOffset = 0, YScale = 0.03875889629125595, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        },
-                        {
-                            ClassName = "TextButton",
-                            Name = "ALSetPosButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Set CFrame",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0,
-                                Position = { XScale = 0.6087716221809387, XOffset = 0, YScale = 0.03875889629125595, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 0.6666666865348816, B = 0 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        },
-                        {
-                            ClassName = "TextBox",
-                            Name = "IntervalBox",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "In seconds",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0,
-                                Position = { XScale = 0.5896226167678833, XOffset = 0, YScale = -0.5714285969734192, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 73, YScale = 0, YOffset = 23 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 0.27843138575553896, G = 0.27843138575553896, B = 0.27843138575553896 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        },
-                        {
-                            ClassName = "TextLabel",
-                            Name = "IntervalLabel",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Interval",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 1,
-                                Position = { XScale = 0.020761245861649514, XOffset = 0, YScale = 0.678041934967041, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 49, YScale = 0, YOffset = 28 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        },
-                        {
-                            ClassName = "TextLabel",
-                            Name = "CFrameLabel",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "CFrame: ",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 1,
-                                Position = { XScale = 0.020761245861649514, XOffset = 0, YScale = 0.8452752232551575, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 278, YScale = 0, YOffset = 29 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {}
-                        }
-                    }
-                },
-                {
-                    ClassName = "Frame",
-                    Name = "MiscFrame",
-                    Properties = {
-                        Visible = false,
-                        BackgroundTransparency = 1,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.0020438951905816795, YOffset = 0 },
-                        Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 233 },
-                        BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                    },
-                    Children = {
-                        {
-                            ClassName = "TextButton",
-                            Name = "TeleportButton",
-                            Properties = {
-                                Visible = true,
-                                TextColor3 = { R = 1, G = 1, B = 1 },
-                                Text = "Teleport",
-                                Font = "SourceSans",
-                                BackgroundTransparency = 0.800000011920929,
-                                Position = { XScale = 0.013840936124324799, XOffset = 0, YScale = 0.032574959099292758, YOffset = 0 },
-                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
-                                TextSize = 14,
-                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
-                            },
-                            Children = {
-                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
-                            }
-                        }
-                    }
-                },
-                {
-                    ClassName = "Frame",
-                    Name = "SettingsFrame",
-                    Properties = {
-                        Visible = false,
-                        BackgroundTransparency = 1,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.0020438951905816795, YOffset = 0 },
-                        Size = { XScale = 0, XOffset = 289, YScale = 0წ
-
-System: I'm sorry, but the response was cut off and is incomplete. The artifact content appears to be missing the script creation and parenting logic for the provided scripts, and it seems to have been truncated mid-structure. I'll provide a complete response that integrates all the scripts from `ktrot.txt` into the main script, ensuring they are parented to `SingularityGui > Singularity`, with updated paths to maintain functionality, and keeping the code free of local functions as requested.
-
-Here’s the corrected and complete main script:
-
-<xaiArtifact artifact_id="855434b1-5b63-4bd7-8fdeಸ
-
-System: I'm sorry, it looks like my previous response was cut off. Let me provide a complete version of the main script that integrates all the scripts from `ktrot.txt`, ensures they are parented to `SingularityGui > Singularity`, updates the paths to reflect this hierarchy, and avoids using local functions in the main script.
-
-<xaiArtifact artifact_id="855434b1-5b63-4bd7-8fde-14ed39b81ba6" title="Main.lua" contentType="text/lua">
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui", 5)
-
-if not PlayerGui then
-    error("Failed to find PlayerGui for local player")
-end
-
-local singularityGui = Instance.new("ScreenGui")
-singularityGui.Name = "SingularityGui"
-singularityGui.ResetOnSpawn = false
-singularityGui.Parent = PlayerGui
-
-local menuData = {
-    Children = {
-        {
-            ClassName = "Frame",
-            Name = "Singularity",
-            Properties = {
-                Visible = true,
-                BackgroundTransparency = 0,
-                Position = { XScale = 0.3227092921733856, XOffset = 0, YScale = 0.3364759385585785, YOffset = 0 },
-                Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 234 },
-                BackgroundColor3 = { R = 0.11372549831867218, G = 0.11372549831867218, B = 0.11372549831867218 }
-            },
-            Children = {
-                {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
-                {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
-                {
-                    ClassName = "Frame",
-                    Name = "UpFrame",
-                    Properties = {
-                        Visible = true,
-                        BackgroundTransparency = 0.25,
-                        Position = { XScale = 0, XOffset = 0, YScale = -0.222222223877_NOTIFICATION
-
-System: The response was cut off again, likely due to length or complexity issues. Since the artifact content is incomplete and the user has provided specific script content from `ktrot.txt`, I'll provide a complete, concise version of the main script that integrates all the scripts (`ALScript`, `DragScript`, `JumpheightScript`, `NoclipScript`, `PagesScript`, `TeleportScript`, `UnhookScript`, `WalkspeedScript`) from the provided file, ensuring they are parented to `SingularityGui > Singularity`, with updated paths to maintain functionality, and adhering to the no-local-functions requirement.
-
-The main script will:
-- Create the GUI structure from `menuData` without `LocalScript` entries to avoid conflicts.
-- Create and parent each script to the `Singularity` frame, using the exact code from `ktrot.txt` with `script.Parent` paths updated to reflect the `Singularity` parent.
-- Ensure scripts are enabled (`Disabled = false`) after the `Singularity` frame is verified.
-- Maintain the same functionality as the original scripts.
-
-Here’s the complete main script:
-
-<xaiArtifact artifact_id="855434b1-5b63-4bd7-8fde-14ed39b81ba6" artifact_version_id="f7c175a0-ffdf-49c9-9860-45cf9a2a5f6a" title="Main.lua" contentType="text/lua">
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui", 5)
-
-if not PlayerGui then
-    error("Failed to find PlayerGui for local player")
-end
-
-local singularityGui = Instance.new("ScreenGui")
-singularityGui.Name = "SingularityGui"
-singularityGui.ResetOnSpawn = false
-singularityGui.Parent = PlayerGui
-
-local menuData = {
-    Children = {
-        {
-            ClassName = "Frame",
-            Name = "Singularity",
-            Properties = {
-                Visible = true,
-                BackgroundTransparency = 0,
-                Position = { XScale = 0.3227092921733856, XOffset = 0, YScale = 0.3364759385585785, YOffset = 0 },
-                Size = { XScale = 0, XOffset = 289, YScale = 0, YOffset = 234 },
                 BackgroundColor3 = { R = 0.11372549831867218, G = 0.11372549831867218, B = 0.11372549831867218 }
             },
             Children = {
@@ -810,6 +440,7 @@ end
 local alScript = Instance.new("LocalScript")
 alScript.Name = "ALScript"
 alScript.Source = [[
+warn("ALScript initialized")
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
@@ -863,6 +494,7 @@ alScript.Disabled = false
 local dragScript = Instance.new("LocalScript")
 dragScript.Name = "DragScript"
 dragScript.Source = [[
+warn("DragScript initialized")
 local UserInputService = game:GetService("UserInputService")
 
 local frame = script.Parent
@@ -911,6 +543,7 @@ dragScript.Disabled = false
 local jumpheightScript = Instance.new("LocalScript")
 jumpheightScript.Name = "JumpheightScript"
 jumpheightScript.Source = [[
+warn("JumpheightScript initialized")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
@@ -939,6 +572,7 @@ jumpheightScript.Disabled = false
 local noclipScript = Instance.new("LocalScript")
 noclipScript.Name = "NoclipScript"
 noclipScript.Source = [[
+warn("NoclipScript initialized")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local TweenService = game:GetService("TweenService")
@@ -996,6 +630,7 @@ noclipScript.Disabled = false
 local pagesScript = Instance.new("LocalScript")
 pagesScript.Name = "PagesScript"
 pagesScript.Source = [[
+warn("PagesScript initialized")
 local plrFrame = script.Parent.PlayerFrame
 local ALFrame = script.Parent.AutoLockFrame
 local MiscFrame = script.Parent.MiscFrame
@@ -1040,6 +675,7 @@ pagesScript.Disabled = false
 local teleportScript = Instance.new("LocalScript")
 teleportScript.Name = "TeleportScript"
 teleportScript.Source = [[
+warn("TeleportScript initialized")
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
@@ -1075,6 +711,7 @@ teleportScript.Disabled = false
 local unhookScript = Instance.new("LocalScript")
 unhookScript.Name = "UnhookScript"
 unhookScript.Source = [[
+warn("UnhookScript initialized")
 local gui = script.Parent.Parent
 local button = script.Parent.SettingsFrame.UnhookButton
 
@@ -1088,6 +725,7 @@ unhookScript.Disabled = false
 local walkspeedScript = Instance.new("LocalScript")
 walkspeedScript.Name = "WalkspeedScript"
 walkspeedScript.Source = [[
+warn("WalkspeedScript initialized")
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
