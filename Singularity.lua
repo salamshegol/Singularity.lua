@@ -432,142 +432,171 @@ for _, item in ipairs(menuData.Children) do
     end
 end
 
-local singularityFrame = singularityGui:FindFirstChild("Singularity", true)
+local singularityFrame = singularityGui:FindFirstChild("Singularity")
 if not singularityFrame then
-    error("Failed to find Frame 'Singularity' in menu data")
+    error("Failed to find Frame 'Singularity' in SingularityGui")
 end
 
-local scripts = {
-    ALScript = [[
-        warn("ALScript initialized")
-    ]],
-    NoclipScript = [[
-        local Players = game:GetService("Players")
-        local player = Players.LocalPlayer
-        warn("NoclipScript initialized")
-        player:GetPropertyChangedSignal("Character"):Connect(function()
-            local character = player.Character
-            if character then
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-                if humanoid then
-                    humanoid:GetPropertyChangedSignal("PlatformStand"):Connect(function()
-                        humanoid.PlatformStand = true
-                    end)
-                end
-            end
-        end)
-    ]],
-    TeleportScript = [[
-        warn("TeleportScript initialized")
-    ]],
-    WalkspeedScript = [[
-        warn("WalkspeedScript initialized")
-        local Players = game:GetService("Players")
-        local player = Players.LocalPlayer
-        player:GetPropertyChangedSignal("Character"):Connect(function()
-            local character = player.Character
-            if character then
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-                if humanoid then
-                    humanoid.WalkSpeed = 32
-                end
-            end
-        end)
-    ]],
-    JumpheightScript = [[
-        warn("JumpheightScript initialized")
-        local Players = game:GetService("Players")
-        local player = Players.LocalPlayer
-        player:GetPropertyChangedSignal("Character"):Connect(function()
-            local character = player.Character
-            if character then
-                local humanoid = character:FindFirstChildOfClass("Humanoid")
-                if humanoid then
-                    humanoid.JumpHeight = 10
-                end
-            end
-        end)
-    ]],
-    DragScript = [[
-        local frame = script.Parent
-        warn("DragScript initialized")
-        local UserInputService = game:GetService("UserInputService")
-        local dragging, dragInput, dragStart, startPos
-        frame.InputBegan:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseButton1 then
-                dragging = true
-                dragStart = input.Position
-                startPos = frame.Position
-                input.Changed:Connect(function()
-                    if input.UserInputState == Enum.UserInputState.End then
-                        dragging = false
-                    end
+local alScript = Instance.new("LocalScript")
+alScript.Name = "ALScript"
+alScript.Source = [[
+    warn("ALScript initialized")
+]]
+alScript.Parent = singularityFrame
+alScript.Disabled = false
+
+local noclipScript = Instance.new("LocalScript")
+noclipScript.Name = "NoclipScript"
+noclipScript.Source = [[
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    warn("NoclipScript initialized")
+    player:GetPropertyChangedSignal("Character"):Connect(function()
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid:GetPropertyChangedSignal("PlatformStand"):Connect(function()
+                    humanoid.PlatformStand = true
                 end)
             end
-        end)
-        frame.InputChanged:Connect(function(input)
-            if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
-                local delta = input.Position - dragStart
-                frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
-            end
-        end)
-    ]],
-    PagesScript = [[
-        warn("PagesScript initialized")
-        local frame = script.Parent
-        local playerButton = frame.UpFrame:FindFirstChild("PlayerButton")
-        local autoLockButton = frame.UpFrame:FindFirstChild("AutoLockButton")
-        local miscButton = frame.UpFrame:FindFirstChild("MiscButton")
-        local settingsButton = frame.UpFrame:FindFirstChild("SettingsButton")
-        local playerFrame = frame:FindFirstChild("PlayerFrame")
-        local autoLockFrame = frame:FindFirstChild("AutoLockFrame")
-        local miscFrame = frame:FindFirstChild("MiscFrame")
-        local settingsFrame = frame:FindFirstChild("SettingsFrame")
-        if playerButton and playerFrame then
-            playerButton.MouseButton1Click:Connect(function()
-                playerFrame.Visible = true
-                autoLockFrame.Visible = false
-                miscFrame.Visible = false
-                settingsFrame.Visible = false
-            end)
         end
-        if autoLockButton and autoLockFrame then
-            autoLockButton.MouseButton1Click:Connect(function()
-                playerFrame.Visible = false
-                autoLockFrame.Visible = true
-                miscFrame.Visible = false
-                settingsFrame.Visible = false
-            end)
-        end
-        if miscButton and miscFrame then
-            miscButton.MouseButton1Click:Connect(function()
-                playerFrame.Visible = false
-                autoLockFrame.Visible = false
-                miscFrame.Visible = true
-                settingsFrame.Visible = false
-            end)
-        end
-        if settingsButton and settingsFrame then
-            settingsButton.MouseButton1Click:Connect(function()
-                playerFrame.Visible = false
-                autoLockFrame.Visible = false
-                miscFrame.Visible = false
-                settingsFrame.Visible = true
-            end)
-        end
-    ]],
-    LocalScript = [[
-        warn("LocalScript initialized")
-    ]]
-}
+    end)
+]]
+noclipScript.Parent = singularityFrame
+noclipScript.Disabled = false
 
-for scriptName, scriptSource in pairs(scripts) do
-    local script = Instance.new("LocalScript")
-    script.Name = scriptName
-    script.Source = scriptSource
-    script.Parent = singularityFrame
-    script.Disabled = false
-end
+local teleportScript = Instance.new("LocalScript")
+teleportScript.Name = "TeleportScript"
+teleportScript.Source = [[
+    warn("TeleportScript initialized")
+]]
+teleportScript.Parent = singularityFrame
+teleportScript.Disabled = false
+
+local walkspeedScript = Instance.new("LocalScript")
+walkspeedScript.Name = "WalkspeedScript"
+walkspeedScript.Source = [[
+    warn("WalkspeedScript initialized")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    player:GetPropertyChangedSignal("Character"):Connect(function()
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.WalkSpeed = 32
+            end
+        end
+    end)
+]]
+walkspeedScript.Parent = singularityFrame
+walkspeedScript.Disabled = false
+
+local jumpheightScript = Instance.new("LocalScript")
+jumpheightScript.Name = "JumpheightScript"
+jumpheightScript.Source = [[
+    warn("JumpheightScript initialized")
+    local Players = game:GetService("Players")
+    local player = Players.LocalPlayer
+    player:GetPropertyChangedSignal("Character"):Connect(function()
+        local character = player.Character
+        if character then
+            local humanoid = character:FindFirstChildOfClass("Humanoid")
+            if humanoid then
+                humanoid.JumpHeight = 10
+            end
+        end
+    end)
+]]
+jumpheightScript.Parent = singularityFrame
+jumpheightScript.Disabled = false
+
+local dragScript = Instance.new("LocalScript")
+dragScript.Name = "DragScript"
+dragScript.Source = [[
+    local frame = script.Parent
+    warn("DragScript initialized")
+    local UserInputService = game:GetService("UserInputService")
+    local dragging, dragInput, dragStart, startPos
+    frame.InputBegan:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseButton1 then
+            dragging = true
+            dragStart = input.Position
+            startPos = frame.Position
+            input.Changed:Connect(function()
+                if input.UserInputState == Enum.UserInputState.End then
+                    dragging = false
+                end
+            end)
+        end
+    end)
+    frame.InputChanged:Connect(function(input)
+        if input.UserInputType == Enum.UserInputType.MouseMovement and dragging then
+            local delta = input.Position - dragStart
+            frame.Position = UDim2.new(startPos.X.Scale, startPos.X.Offset + delta.X, startPos.Y.Scale, startPos.Y.Offset + delta.Y)
+        end
+    end)
+]]
+dragScript.Parent = singularityFrame
+dragScript.Disabled = false
+
+local pagesScript = Instance.new("LocalScript")
+pagesScript.Name = "PagesScript"
+pagesScript.Source = [[
+    warn("PagesScript initialized")
+    local frame = script.Parent
+    local playerButton = frame.UpFrame:FindFirstChild("PlayerButton")
+    local autoLockButton = frame.UpFrame:FindFirstChild("AutoLockButton")
+    local miscButton = frame.UpFrame:FindFirstChild("MiscButton")
+    local settingsButton = frame.UpFrame:FindFirstChild("SettingsButton")
+    local playerFrame = frame:FindFirstChild("PlayerFrame")
+    local autoLockFrame = frame:FindFirstChild("AutoLockFrame")
+    local miscFrame = frame:FindFirstChild("MiscFrame")
+    local settingsFrame = frame:FindFirstChild("SettingsFrame")
+    if playerButton and playerFrame then
+        playerButton.MouseButton1Click:Connect(function()
+            playerFrame.Visible = true
+            autoLockFrame.Visible = false
+            miscFrame.Visible = false
+            settingsFrame.Visible = false
+        end)
+    end
+    if autoLockButton and autoLockFrame then
+        autoLockButton.MouseButton1Click:Connect(function()
+            playerFrame.Visible = false
+            autoLockFrame.Visible = true
+            miscFrame.Visible = false
+            settingsFrame.Visible = false
+        end)
+    end
+    if miscButton and miscFrame then
+        miscButton.MouseButton1Click:Connect(function()
+            playerFrame.Visible = false
+            autoLockFrame.Visible = false
+            miscFrame.Visible = true
+            settingsFrame.Visible = false
+        end)
+    end
+    if settingsButton and settingsFrame then
+        settingsButton.MouseButton1Click:Connect(function()
+            playerFrame.Visible = false
+            autoLockFrame.Visible = false
+            miscFrame.Visible = false
+            settingsFrame.Visible = true
+        end)
+    end
+]]
+pagesScript.Parent = singularityFrame
+pagesScript.Disabled = false
+
+local localScript = Instance.new("LocalScript")
+localScript.Name = "LocalScript"
+localScript.Source = [[
+    warn("LocalScript initialized")
+]]
+localScript.Parent = singularityFrame
+localScript.Disabled = false
 
 singularityGui.AncestryChanged:Connect(function()
     if not singularityGui:IsDescendantOf(game) then
