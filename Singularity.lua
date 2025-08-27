@@ -1,10 +1,18 @@
+warn("Main script initializing")
 local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+local RunService = game:GetService("RunService")
+local TweenService = game:GetService("TweenService")
 local player = Players.LocalPlayer
 local PlayerGui = player:WaitForChild("PlayerGui", 5)
 
 if not PlayerGui then
     error("Failed to find PlayerGui for local player")
 end
+
+local char = player.Character or player.CharacterAdded:Wait()
+local hrp = char:WaitForChild("HumanoidRootPart")
+local humanoid = char:WaitForChild("Humanoid")
 
 local singularityGui = Instance.new("ScreenGui")
 singularityGui.Name = "SingularityGui"
@@ -376,7 +384,7 @@ for _, item in ipairs(menuData.Children) do
     obj.Parent = singularityGui
 
     if item.Children then
-        for _, childItem in ipairs(item.Children) do
+        for _, childItem in ipairs(childItem.Children) do
             local childObj = Instance.new(childItem.ClassName)
             childObj.Name = childItem.Name or "Unnamed"
 
@@ -437,32 +445,24 @@ if not singularityFrame then
     error("Failed to find Frame 'Singularity' in SingularityGui")
 end
 
-local alScript = Instance.new("LocalScript")
-alScript.Name = "ALScript"
-alScript.Source = [[
-warn("ALScript initialized")
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
-
-local setButton = script.Parent.AutoLockFrame.ALSetPosButton
-local toggleButton = script.Parent.AutoLockFrame.ALButton
-local intervalBox = script.Parent.AutoLockFrame.IntervalBox
-local cframeLabel = script.Parent.AutoLockFrame.CFrameLabel
-
+-- ALScript logic
+warn("ALScript logic initializing")
+local setButton = singularityFrame.AutoLockFrame.ALSetPosButton
+local toggleButton = singularityFrame.AutoLockFrame.ALButton
+local intervalBox = singularityFrame.AutoLockFrame.IntervalBox
+local cframeLabel = singularityFrame.AutoLockFrame.CFrameLabel
 local orangeColor = Color3.fromRGB(255, 170, 0)
 local whiteColor = Color3.fromRGB(255, 255, 255)
 local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
 local savedCFrame = nil
 local running = false
 
 setButton.MouseButton1Click:Connect(function()
-    savedCFrame = hrp.CFrame
-    local pos = savedCFrame.Position
-    cframeLabel.Text = string.format("CFrame: %.5f, %.5f, %.5f", pos.X, pos.Y, pos.Z)
+    if hrp then
+        savedCFrame = hrp.CFrame
+        local pos = savedCFrame.Position
+        cframeLabel.Text = string.format("CFrame: %.5f, %.5f, %.5f", pos.X, pos.Y, pos.Z)
+    end
 end)
 
 toggleButton.MouseButton1Click:Connect(function()
@@ -478,38 +478,26 @@ toggleButton.MouseButton1Click:Connect(function()
     if running then
         task.spawn(function()
             while running do
-                local originalCFrame = hrp.CFrame
-                hrp.CFrame = savedCFrame
-                task.wait(0.2)
-                hrp.CFrame = originalCFrame
-                task.wait(interval)
+                if hrp then
+                    local originalCFrame = hrp.CFrame
+                    hrp.CFrame = savedCFrame
+                    task.wait(0.2)
+                    hrp.CFrame = originalCFrame
+                    task.wait(interval)
+                else
+                    running = false
+                    break
+                end
             end
         end)
     end
 end)
-]]
-alScript.Parent = singularityFrame
-alScript.Disabled = false
 
-local dragScript = Instance.new("LocalScript")
-dragScript.Name = "DragScript"
-dragScript.Source = [[
-warn("DragScript initialized")
-local UserInputService = game:GetService("UserInputService")
-
-local frame = script.Parent
+-- DragScript logic
+warn("DragScript logic initializing")
+local frame = singularityFrame
 local dragging = false
 local dragInput, dragStart, startPos
-
-local function update(input)
-    local delta = input.Position - dragStart
-    frame.Position = UDim2.new(
-        startPos.X.Scale,
-        startPos.X.Offset + delta.X,
-        startPos.Y.Scale,
-        startPos.Y.Offset + delta.Y
-    )
-end
 
 frame.InputBegan:Connect(function(input)
     if input.UserInputType == Enum.UserInputType.MouseButton1 then
@@ -533,73 +521,46 @@ end)
 
 UserInputService.InputChanged:Connect(function(input)
     if input == dragInput and dragging then
-        update(input)
+        local delta = input.Position - dragStart
+        frame.Position = UDim2.new(
+            startPos.X.Scale,
+            startPos.X.Offset + delta.X,
+            startPos.Y.Scale,
+            startPos.Y.Offset + delta.Y
+        )
     end
 end)
-]]
-dragScript.Parent = singularityFrame
-dragScript.Disabled = false
 
-local jumpheightScript = Instance.new("LocalScript")
-jumpheightScript.Name = "JumpheightScript"
-jumpheightScript.Source = [[
-warn("JumpheightScript initialized")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local humanoid = char:WaitForChild("Humanoid")
-local TweenService = game:GetService("TweenService")
-
-local jumpButton = script.Parent.PlayerFrame.JumpheightButton
-local orangeColor = Color3.fromRGB(255, 170, 0)
-local whiteColor = Color3.fromRGB(255, 255, 255)
-local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
-local enabled = false
+-- JumpheightScript logic
+warn("JumpheightScript logic initializing")
+local jumpButton = singularityFrame.PlayerFrame.JumpheightButton
+local jumpEnabled = false
 local originalJump = humanoid.JumpHeight
 
 jumpButton.MouseButton1Click:Connect(function()
-    enabled = not enabled
-    local newColor = enabled and orangeColor or whiteColor
+    jumpEnabled = not jumpEnabled
+    local newColor = jumpEnabled and orangeColor or whiteColor
     local tween = TweenService:Create(jumpButton, tweenInfo, {BackgroundColor3 = newColor})
     tween:Play()
-    humanoid.JumpHeight = enabled and 30 or originalJump
+    humanoid.JumpHeight = jumpEnabled and 30 or originalJump
 end)
-]]
-jumpheightScript.Parent = singularityFrame
-jumpheightScript.Disabled = false
 
-local noclipScript = Instance.new("LocalScript")
-noclipScript.Name = "NoclipScript"
-noclipScript.Source = [[
-warn("NoclipScript initialized")
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer
-
-local noclipButton = script.Parent.PlayerFrame.NoclipButton
-local orangeColor = Color3.fromRGB(255, 170, 0)
-local whiteColor = Color3.fromRGB(255, 255, 255)
-local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
+-- NoclipScript logic
+warn("NoclipScript logic initializing")
+local noclipButton = singularityFrame.PlayerFrame.NoclipButton
 local noclipEnabled = false
-
-local function setNoclip(state)
-    local char = player.Character
-    if not char then return end
-
-    for _, part in pairs(char:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanCollide = not state
-        end
-    end
-end
 
 noclipButton.MouseButton1Click:Connect(function()
     noclipEnabled = not noclipEnabled
     TweenService:Create(noclipButton, tweenInfo, {BackgroundColor3 = noclipEnabled and orangeColor or whiteColor}):Play()
-    setNoclip(noclipEnabled)
+    local char = player.Character
+    if char then
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = not noclipEnabled
+            end
+        end
+    end
 end)
 
 RunService.Stepped:Connect(function()
@@ -620,29 +581,24 @@ end)
 player.CharacterAdded:Connect(function(char)
     task.wait(0.1)
     if noclipEnabled then
-        setNoclip(true)
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = false
+            end
+        end
     end
 end)
-]]
-noclipScript.Parent = singularityFrame
-noclipScript.Disabled = false
 
-local pagesScript = Instance.new("LocalScript")
-pagesScript.Name = "PagesScript"
-pagesScript.Source = [[
-warn("PagesScript initialized")
-local plrFrame = script.Parent.PlayerFrame
-local ALFrame = script.Parent.AutoLockFrame
-local MiscFrame = script.Parent.MiscFrame
-local settingsFrame = script.Parent.SettingsFrame
-
-local plrButton = script.Parent.UpFrame.PlayerButton
-local MiscButton = script.Parent.UpFrame.MiscButton
-local ALButton = script.Parent.UpFrame.AutoLockButton
-local settingsButton = script.Parent.UpFrame.SettingsButton
-
-local orangeColor = Color3.fromRGB(255, 170, 0)
-local whiteColor = Color3.fromRGB(255, 255, 255)
+-- PagesScript logic
+warn("PagesScript logic initializing")
+local plrFrame = singularityFrame.PlayerFrame
+local ALFrame = singularityFrame.AutoLockFrame
+local MiscFrame = singularityFrame.MiscFrame
+local settingsFrame = singularityFrame.SettingsFrame
+local plrButton = singularityFrame.UpFrame.PlayerButton
+local MiscButton = singularityFrame.UpFrame.MiscButton
+local ALButton = singularityFrame.UpFrame.AutoLockButton
+local settingsButton = singularityFrame.UpFrame.SettingsButton
 
 local buttons = {
     [plrButton] = plrFrame,
@@ -651,105 +607,63 @@ local buttons = {
     [settingsButton] = settingsFrame
 }
 
-local function openFrame(clickedButton)
-    for button, frame in pairs(buttons) do
-        if button == clickedButton then
-            frame.Visible = true
-            button.ImageColor3 = orangeColor
-        else
-            frame.Visible = false
-            button.ImageColor3 = whiteColor
-        end
-    end
-end
-
-for button, _ in pairs(buttons) do
+for button, frame in pairs(buttons) do
     button.MouseButton1Click:Connect(function()
-        openFrame(button)
+        for btn, frm in pairs(buttons) do
+            if btn == button then
+                frm.Visible = true
+                btn.ImageColor3 = orangeColor
+            else
+                frm.Visible = false
+                btn.ImageColor3 = whiteColor
+            end
+        end
     end)
 end
-]]
-pagesScript.Parent = singularityFrame
-pagesScript.Disabled = false
 
-local teleportScript = Instance.new("LocalScript")
-teleportScript.Name = "TeleportScript"
-teleportScript.Source = [[
-warn("TeleportScript initialized")
-local Players = game:GetService("Players")
-local TweenService = game:GetService("TweenService")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local hrp = char:WaitForChild("HumanoidRootPart")
-
-local teleportButton = script.Parent.MiscFrame.TeleportButton
-
+-- TeleportScript logic
+warn("TeleportScript logic initializing")
+local teleportButton = singularityFrame.MiscFrame.TeleportButton
 local stepDistance = 3
-local orangeColor = Color3.fromRGB(255, 170, 0)
-local whiteColor = Color3.fromRGB(255, 255, 255)
-
 local tweenInfoGreen = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 local tweenInfoRed = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
 
 teleportButton.MouseButton1Click:Connect(function()
-    if not hrp then return end
-    local lookVector = hrp.CFrame.LookVector
-    local newPosition = hrp.Position + (lookVector * stepDistance)
-    hrp.CFrame = CFrame.new(newPosition, newPosition + lookVector)
+    if hrp then
+        local lookVector = hrp.CFrame.LookVector
+        local newPosition = hrp.Position + (lookVector * stepDistance)
+        hrp.CFrame = CFrame.new(newPosition, newPosition + lookVector)
 
-    local tweenGreen = TweenService:Create(teleportButton, tweenInfoGreen, {BackgroundColor3 = orangeColor})
-    local tweenRed = TweenService:Create(teleportButton, tweenInfoRed, {BackgroundColor3 = whiteColor})
+        local tweenGreen = TweenService:Create(teleportButton, tweenInfoGreen, {BackgroundColor3 = orangeColor})
+        local tweenRed = TweenService:Create(teleportButton, tweenInfoRed, {BackgroundColor3 = whiteColor})
 
-    tweenGreen:Play()
-    tweenGreen.Completed:Wait()
-    tweenRed:Play()
+        tweenGreen:Play()
+        tweenGreen.Completed:Wait()
+        tweenRed:Play()
+    end
 end)
-]]
-teleportScript.Parent = singularityFrame
-teleportScript.Disabled = false
 
-local unhookScript = Instance.new("LocalScript")
-unhookScript.Name = "UnhookScript"
-unhookScript.Source = [[
-warn("UnhookScript initialized")
-local gui = script.Parent.Parent
-local button = script.Parent.SettingsFrame.UnhookButton
+-- UnhookScript logic
+warn("UnhookScript logic initializing")
+local unhookButton = singularityFrame.SettingsFrame.UnhookButton
 
-button.MouseButton1Click:Connect(function()
-    gui:Destroy()
+unhookButton.MouseButton1Click:Connect(function()
+    singularityGui:Destroy()
 end)
-]]
-unhookScript.Parent = singularityFrame
-unhookScript.Disabled = false
 
-local walkspeedScript = Instance.new("LocalScript")
-walkspeedScript.Name = "WalkspeedScript"
-walkspeedScript.Source = [[
-warn("WalkspeedScript initialized")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local char = player.Character or player.CharacterAdded:Wait()
-local humanoid = char:WaitForChild("Humanoid")
-local TweenService = game:GetService("TweenService")
-
-local walkSpeedButton = script.Parent.PlayerFrame.WalkspeedButton
-local orangeColor = Color3.fromRGB(255, 170, 0)
-local whiteColor = Color3.fromRGB(255, 255, 255)
-local tweenInfo = TweenInfo.new(0.4, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-
-local enabled = false
+-- WalkspeedScript logic
+warn("WalkspeedScript logic initializing")
+local walkSpeedButton = singularityFrame.PlayerFrame.WalkspeedButton
+local walkEnabled = false
 local originalSpeed = humanoid.WalkSpeed
 
 walkSpeedButton.MouseButton1Click:Connect(function()
-    enabled = not enabled
-    local newColor = enabled and orangeColor or whiteColor
+    walkEnabled = not walkEnabled
+    local newColor = walkEnabled and orangeColor or whiteColor
     local tween = TweenService:Create(walkSpeedButton, tweenInfo, {BackgroundColor3 = newColor})
     tween:Play()
-    humanoid.WalkSpeed = enabled and 50 or originalSpeed
+    humanoid.WalkSpeed = walkEnabled and 50 or originalSpeed
 end)
-]]
-walkspeedScript.Parent = singularityFrame
-walkspeedScript.Disabled = false
 
 singularityGui.AncestryChanged:Connect(function()
     if not singularityGui:IsDescendantOf(game) then
