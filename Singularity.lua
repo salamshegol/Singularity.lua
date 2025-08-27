@@ -1,18 +1,21 @@
 local Players = game:GetService("Players")
 local HttpService = game:GetService("HttpService")
 
+-- Получаем локального игрока и его PlayerGui
 local player = Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui", 5) 
+local PlayerGui = player:WaitForChild("PlayerGui", 5) -- Таймаут 5 секунд
 
 if not PlayerGui then
     error("❌ Не удалось найти PlayerGui для локального игрока")
 end
 
+-- Создаем контейнер для GUI
 local singularityGui = Instance.new("ScreenGui")
 singularityGui.Name = "SingularityGui"
-singularityGui.ResetOnSpawn = false 
+singularityGui.ResetOnSpawn = false -- Предотвращаем сброс GUI при респавне
 singularityGui.Parent = PlayerGui
 
+-- JSON с описанием интерфейса
 local menuJSON = [[
     {"Children":[{"Children":[],"Properties":[],"Name":"ALScript","ClassName":"LocalScript"},
     {"Children":[],"Properties":[],"Name":"NoclipScript","ClassName":"LocalScript"},
@@ -43,16 +46,35 @@ local menuJSON = [[
     {"Children":[],"Properties":[],"Name":"LocalScript","ClassName":"LocalScript"}]
 ]]
 
-local success, menuData = pcall(HttpService.JSONDecode, HttpService, menuJSON)
-if not success then
-    error("❌ Ошибка при парсинге JSON: " .. tostring(menuData))
+-- Предварительная проверка JSON
+local function validateJSON(jsonString)
+    if not jsonString or jsonString == "" then
+        return false, "JSON пустой или отсутствует"
+    end
+    -- Проверяем, является ли строка валидным JSON
+    local success, result = pcall(function()
+        return HttpService:JSONDecode(jsonString)
+    end)
+    if not success then
+        return false, "Ошибка валидации JSON: " .. tostring(result)
+    end
+    return true, result
 end
 
+-- Парсим JSON
+local isValid, menuDataOrError = validateJSON(menuJSON)
+if not isValid then
+    error("❌ Ошибка при парсинге JSON: " .. tostring(menuDataOrError))
+end
+local menuData = menuDataOrError
+
+-- Функция создания GUI элементов из JSON
 local function createFromJSON(parent, items)
     for _, item in ipairs(items) do
         local obj = Instance.new(item.ClassName)
         obj.Name = item.Name or "Unnamed"
 
+        -- Применяем свойства
         if item.Properties then
             for prop, val in pairs(item.Properties) do
                 local success, err = pcall(function()
@@ -60,8 +82,8 @@ local function createFromJSON(parent, items)
                         obj[prop] = UDim2.new(val.XScale or 0, val.XOffset or 0, val.YScale or 0, val.YOffset or 0)
                     elseif prop == "TextColor3" or prop == "BackgroundColor3" or prop == "ImageColor3" then
                         obj[prop] = Color3.new(val.R or 0, val.G or 0, val.B or 0)
-                    elseif prop == "Font" and val == nil then
-                        obj[prop] = Enum.Font.SourceSans 
+                    elseif prop == "Font" and (val == nil or val == "null") then
+                        obj[prop] = Enum.Font.SourceSans -- Устанавливаем шрифт по умолчанию
                     else
                         obj[prop] = val
                     end
@@ -74,19 +96,28 @@ local function createFromJSON(parent, items)
 
         obj.Parent = parent
 
+        -- Рекурсивно создаем дочерние элементы
         if item.Children then
             createFromJSON(obj, item.Children)
         end
     end
 end
 
-createFromJSON(singularityGui, menuData)
+-- Создаем GUI из JSON
+local success, createError = pcall(function()
+    createFromJSON(singularityGui, menuData)
+end)
+if not success then
+    error("❌ Ошибка при создании GUI: " .. tostring(createError))
+end
 
+-- Проверяем наличие основного фрейма
 local singularityFrame = singularityGui:FindFirstChild("Singularity", true)
 if not singularityFrame then
     error("❌ Не найден Frame 'Singularity' в menuJSON")
 end
 
+-- Список скриптов для загрузки
 local scriptsList = {
     ALScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/ALScript.lua",
     NoclipScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/NoclipScript.lua",
@@ -98,6 +129,7 @@ local scriptsList = {
     UnhookScript = "https://raw.githubusercontent.com/salamshegol/Singularity.lua/main/scripts/UnhookScript.lua"
 }
 
+-- Асинхронная загрузка скриптов
 local function loadScripts()
     for name, url in pairs(scriptsList) do
         local success, scriptContent = pcall(function()
@@ -122,10 +154,16 @@ local function loadScripts()
     end
 end
 
-loadScripts()
+-- Запускаем загрузку скриптов
+local success, loadError = pcall(loadScripts)
+if not success then
+    warn("⚠️ Ошибка при загрузке скриптов: " .. tostring(loadError))
+end
 
+-- Защита от повторного запуска
 singularityGui.AncestryChanged:Connect(function()
     if not singularityGui:IsDescendantOf(game) then
         warn("⚠️ GUI был удален, очищаем ресурсы")
+        -- Здесь можно добавить очистку, если нужно
     end
 end)
