@@ -6,13 +6,11 @@ if not PlayerGui then
     error("Failed to find PlayerGui for local player")
 end
 
--- Create ScreenGui
 local singularityGui = Instance.new("ScreenGui")
 singularityGui.Name = "SingularityGui"
 singularityGui.ResetOnSpawn = false
 singularityGui.Parent = PlayerGui
 
--- GUI structure as Lua table
 local menuData = {
     Children = {
         {
@@ -360,7 +358,6 @@ local menuData = {
     }
 }
 
--- Function to create GUI from table
 local function createFromTable(parent, items)
     for _, item in ipairs(items) do
         local obj = Instance.new(item.ClassName)
@@ -385,7 +382,6 @@ local function createFromTable(parent, items)
             end
         end
 
-        -- Disable LocalScripts to prevent execution issues
         if item.ClassName == "LocalScript" then
             obj.Disabled = true
         end
@@ -398,7 +394,6 @@ local function createFromTable(parent, items)
     end
 end
 
--- Create GUI
 local success, createError = pcall(function()
     createFromTable(singularityGui, menuData.Children)
 end)
@@ -406,15 +401,12 @@ if not success then
     error("Failed to create GUI: " .. tostring(createError))
 end
 
--- Check for main frame
 local singularityFrame = singularityGui:FindFirstChild("Singularity", true)
 if not singularityFrame then
     error("Failed to find Frame 'Singularity' in menu data")
 end
 
--- Add script functionality manually
 local function initializeScripts()
-    -- Placeholder for ALScript
     local alScript = singularityGui:FindFirstChild("ALScript")
     if alScript then
         alScript.Source = [[
@@ -424,7 +416,6 @@ local function initializeScripts()
         alScript.Disabled = false
     end
 
-    -- Placeholder for NoclipScript
     local noclipScript = singularityGui:FindFirstChild("NoclipScript")
     if noclipScript then
         noclipScript.Source = [[
@@ -447,7 +438,6 @@ local function initializeScripts()
         noclipScript.Disabled = false
     end
 
-    -- Placeholder for TeleportScript
     local teleportScript = singularityGui:FindFirstChild("TeleportScript")
     if teleportScript then
         teleportScript.Source = [[
@@ -457,7 +447,6 @@ local function initializeScripts()
         teleportScript.Disabled = false
     end
 
-    -- Placeholder for WalkspeedScript
     local walkspeedScript = singularityGui:FindFirstChild("WalkspeedScript")
     if walkspeedScript then
         walkspeedScript.Source = [[
@@ -478,7 +467,6 @@ local function initializeScripts()
         walkspeedScript.Disabled = false
     end
 
-    -- Placeholder for JumpheightScript
     local jumpheightScript = singularityGui:FindFirstChild("JumpheightScript")
     if jumpheightScript then
         jumpheightScript.Source = [[
@@ -499,7 +487,6 @@ local function initializeScripts()
         jumpheightScript.Disabled = false
     end
 
-    -- Placeholder for DragScript
     local dragScript = singularityGui:FindFirstChild("DragScript")
     if dragScript then
         dragScript.Source = [[
@@ -531,7 +518,6 @@ local function initializeScripts()
         dragScript.Disabled = false
     end
 
-    -- Placeholder for PagesScript
     local pagesScript = singularityGui:FindFirstChild("PagesScript")
     if pagesScript then
         pagesScript.Source = [[
@@ -583,7 +569,6 @@ local function initializeScripts()
         pagesScript.Disabled = false
     end
 
-    -- Placeholder for LocalScript
     local localScript = singularityGui:FindFirstChild("LocalScript")
     if localScript then
         localScript.Source = [[
@@ -594,13 +579,11 @@ local function initializeScripts()
     end
 end
 
--- Initialize scripts after GUI creation
 local success, initError = pcall(initializeScripts)
 if not success then
     warn("Failed to initialize scripts: " .. tostring(initError))
 end
 
--- Cleanup on GUI removal
 singularityGui.AncestryChanged:Connect(function()
     if not singularityGui:IsDescendantOf(game) then
         warn("GUI was removed, cleaning up resources")
