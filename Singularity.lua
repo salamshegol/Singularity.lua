@@ -384,7 +384,7 @@ for _, item in ipairs(menuData.Children) do
     obj.Parent = singularityGui
 
     if item.Children then
-        for _, childItem in ipairs(childItem.Children) do
+        for _, childItem in ipairs(item.Children) do
             local childObj = Instance.new(childItem.ClassName)
             childObj.Name = childItem.Name or "Unnamed"
 
