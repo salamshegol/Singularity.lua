@@ -28,7 +28,7 @@ local menuData = {
             },
             Children = {
                 {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
-                {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
+                {&nbsp;ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
                 {
                     ClassName = "Frame",
                     Name = "UpFrame",
@@ -42,7 +42,7 @@ local menuData = {
                     Children = {
                         {ClassName = "UICorner", Name = "Corner", Properties = {}, Children = {}},
                         {ClassName = "UIStroke", Name = "UIStroke", Properties = {}, Children = {}},
-                        {
+&nbsp;                        {
                             ClassName = "TextLabel",
                             Name = "Title",
                             Properties = {
@@ -177,6 +177,24 @@ local menuData = {
                                 Font = "SourceSans",
                                 BackgroundTransparency = 0.800000011920929,
                                 Position = { XScale = 0.013840830884873867, XOffset = 0, YScale = 0.23000000417232514, YOffset = 0 },
+                                Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
+                                TextSize = 14,
+                                BackgroundColor3 = { R = 1, G = 1, B = 1 }
+                            },
+                            Children = {
+                                {ClassName = "UICorner", Name = "UICorner", Properties = {}, Children = {}}
+                            }
+                        },
+                        {
+                            ClassName = "TextButton",
+                            Name = "InvisibleButton",
+                            Properties = {
+                                Visible = true,
+                                TextColor3 = { R = 1, G = 1, B = 1 },
+                                Text = "Invisible",
+                                Font = "SourceSans",
+                                BackgroundTransparency = 0.800000011920929,
+                                Position = { XScale = 0.013840830884873867, XOffset = 0, YScale = 0.33000001311302185, YOffset = 0 },
                                 Size = { XScale = 0, XOffset = 100, YScale = 0, YOffset = 19 },
                                 TextSize = 14,
                                 BackgroundColor3 = { R = 1, G = 1, B = 1 }
@@ -455,9 +473,14 @@ local savedCFrame = nil
 local running = false
 
 setButton.MouseButton1Click:Connect(function()
-    savedCFrame = hrp.CFrame
-    local pos = savedCFrame.Position
-    cframeLabel.Text = string.format("CFrame: %.5f, %.5f, %.5f", pos.X, pos.Y, pos.Z)
+    local success, err = pcall(function()
+        savedCFrame = hrp.CFrame
+        local pos = savedCFrame.Position
+        cframeLabel.Text = string.format("CFrame: %.5f, %.5f, %.5f", pos.X, pos.Y, pos.Z)
+    end)
+    if not success then
+        warn("Error setting CFrame: " .. tostring(err))
+    end
 end)
 
 toggleButton.MouseButton1Click:Connect(function()
@@ -472,10 +495,17 @@ toggleButton.MouseButton1Click:Connect(function()
     if running then
         task.spawn(function()
             while running do
-                local originalCFrame = hrp.CFrame
-                hrp.CFrame = savedCFrame
-                task.wait(0.2)
-                hrp.CFrame = originalCFrame
+                local success, err = pcall(function()
+                    local originalCFrame = hrp.CFrame
+                    hrp.CFrame = savedCFrame
+                    task.wait(0.2)
+                    hrp.CFrame = originalCFrame
+                end)
+                if not success then
+                    warn("Error in AutoLock loop: " .. tostring(err))
+                    running = false
+                    TweenService:Create(toggleButton, tweenInfo, {BackgroundColor3 = whiteColor}):Play()
+                end
                 task.wait(interval)
             end
         end)
@@ -533,7 +563,14 @@ jumpButton.MouseButton1Click:Connect(function()
     local newColor = enabledJump and orangeColor or whiteColor
     local tween = TweenService:Create(jumpButton, tweenInfo, {BackgroundColor3 = newColor})
     tween:Play()
-    humanoid.JumpHeight = enabledJump and 30 or originalJump
+    local success, err = pcall(function()
+        humanoid.JumpHeight = enabledJump and 30 or originalJump
+    end)
+    if not success then
+        warn("Error setting JumpHeight: " .. tostring(err))
+        enabledJump = false
+        TweenService:Create(jumpButton, tweenInfo, {BackgroundColor3 = whiteColor}):Play()
+    end
 end)
 
 -- Noclip functionality
@@ -544,10 +581,15 @@ local function setNoclip(state)
     local char = player.Character
     if not char then return end
 
-    for _, part in pairs(char:GetDescendants()) do
-        if part:IsA("BasePart") then
-            part.CanCollide = not state
+    local success, err = pcall(function()
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") then
+                part.CanCollide = not state
+            end
         end
+    end)
+    if not success then
+        warn("Error setting Noclip: " .. tostring(err))
     end
 end
 
@@ -562,20 +604,89 @@ RunService.Stepped:Connect(function()
         local char = player.Character
         local hrp = char:FindFirstChild("HumanoidRootPart")
         if hrp then
-            hrp.CanCollide = false
-        end
-        for _, part in pairs(char:GetDescendants()) do
-            if part:IsA("BasePart") then
-                part.CanCollide = false
+            local success, err = pcall(function()
+                hrp.CanCollide = false
+                for _, part in pairs(char:GetDescendants()) do
+                    if part:IsA("BasePart") then
+                        part.CanCollide = false
+                    end
+                end
+            end)
+            if not success then
+                warn("Error in Noclip loop: " .. tostring(err))
             end
         end
     end
 end)
 
+-- Invisible functionality
+local invisibleButton = singularityFrame.PlayerFrame.InvisibleButton
+local invisibleEnabled = false
+
+local function setInvisible(state)
+    local char = player.Character
+    if not char then return end
+
+    local success, err = pcall(function()
+        for _, part in pairs(char:GetDescendants()) do
+            if part:IsA("BasePart") or part:IsA("Decal") then
+                part.Transparency = state and 1 or 0
+            end
+        end
+        for _, accessory in pairs(char:GetChildren()) do
+            if accessory:IsA("Accessory") then
+                local handle = accessory:FindFirstChild("Handle")
+                if handle and handle:IsA("BasePart") then
+                    handle.Transparency = state and 1 or 0
+                end
+            end
+        end
+    end)
+    if not success then
+        warn("Error setting Invisible: " .. tostring(err))
+    end
+end
+
+invisibleButton.MouseButton1Click:Connect(function()
+    invisibleEnabled = not invisibleEnabled
+    TweenService:Create(invisibleButton, tweenInfo, {BackgroundColor3 = invisibleEnabled and orangeColor or whiteColor}):Play()
+    setInvisible(invisibleEnabled)
+end)
+
+-- Character respawn handling
 player.CharacterAdded:Connect(function(char)
     task.wait(0.1)
+    humanoid = char:WaitForChild("Humanoid")
+    hrp = char:WaitForChild("HumanoidRootPart")
+    
+    -- Reset Walkspeed
+    enabledSpeed = false
+    local successSpeed, errSpeed = pcall(function()
+        humanoid.WalkSpeed = originalSpeed
+    end)
+    if not successSpeed then
+        warn("Error resetting WalkSpeed: " .. tostring(errSpeed))
+    end
+    TweenService:Create(walkSpeedButton, tweenInfo, {BackgroundColor3 = whiteColor}):Play()
+    
+    -- Reset JumpHeight
+    enabledJump = false
+    local successJump, errJump = pcall(function()
+        humanoid.JumpHeight = originalJump
+    end)
+    if not successJump then
+        warn("Error resetting JumpHeight: " .. tostring(errJump))
+    end
+    TweenService:Create(jumpButton, tweenInfo, {BackgroundColor3 = whiteColor}):Play()
+    
+    -- Reapply Noclip
     if noclipEnabled then
         setNoclip(true)
+    end
+    
+    -- Reapply Invisible
+    if invisibleEnabled then
+        setInvisible(true)
     end
 end)
 
@@ -622,16 +733,20 @@ local tweenInfoRed = TweenInfo.new(0.1, Enum.EasingStyle.Quad, Enum.EasingDirect
 
 teleportButton.MouseButton1Click:Connect(function()
     if not hrp then return end
-    local lookVector = hrp.CFrame.LookVector
-    local newPosition = hrp.Position + (lookVector * stepDistance)
-    hrp.CFrame = CFrame.new(newPosition, newPosition + lookVector)
-
-    local tweenGreen = TweenService:Create(teleportButton, tweenInfoGreen, {BackgroundColor3 = orangeColor})
-    local tweenRed = TweenService:Create(teleportButton, tweenInfoRed, {BackgroundColor3 = whiteColor})
-
-    tweenGreen:Play()
-    tweenGreen.Completed:Wait()
-    tweenRed:Play()
+    local success, err = pcall(function()
+        local lookVector = hrp.CFrame.LookVector
+        local newPosition = hrp.Position + (lookVector * stepDistance)
+        hrp.CFrame = CFrame.new(newPosition, newPosition + lookVector)
+    end)
+    if success then
+        local tweenGreen = TweenService:Create(teleportButton, tweenInfoGreen, {BackgroundColor3 = orangeColor})
+        local tweenRed = TweenService:Create(teleportButton, tweenInfoRed, {BackgroundColor3 = whiteColor})
+        tweenGreen:Play()
+        tweenGreen.Completed:Wait()
+        tweenRed:Play()
+    else
+        warn("Error teleporting: " .. tostring(err))
+    end
 end)
 
 -- Unhook functionality
@@ -651,7 +766,14 @@ walkSpeedButton.MouseButton1Click:Connect(function()
     local newColor = enabledSpeed and orangeColor or whiteColor
     local tween = TweenService:Create(walkSpeedButton, tweenInfo, {BackgroundColor3 = newColor})
     tween:Play()
-    humanoid.WalkSpeed = enabledSpeed and 50 or originalSpeed
+    local success, err = pcall(function()
+        humanoid.WalkSpeed = enabledSpeed and 50 or originalSpeed
+    end)
+    if not success then
+        warn("Error setting WalkSpeed: " .. tostring(err))
+        enabledSpeed = false
+        TweenService:Create(walkSpeedButton, tweenInfo, {BackgroundColor3 = whiteColor}):Play()
+    end
 end)
 
 -- Cleanup on GUI removal
