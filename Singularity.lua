@@ -447,10 +447,10 @@ local player = Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local hrp = char:WaitForChild("HumanoidRootPart")
 
-local setButton = script.Parent.AutoLockFrame.ALSetPosButton
-local toggleButton = script.Parent.AutoLockFrame.ALButton
-local intervalBox = script.Parent.AutoLockFrame.IntervalBox
-local cframeLabel = script.Parent.AutoLockFrame.CFrameLabel
+local setButton = singularityFrame.AutoLockFrame.ALSetPosButton
+local toggleButton = singularityFrame.AutoLockFrame.ALButton
+local intervalBox = singularityFrame.AutoLockFrame.IntervalBox
+local cframeLabel = singularityFrame.AutoLockFrame.CFrameLabel
 
 local orangeColor = Color3.fromRGB(255, 170, 0)
 local whiteColor = Color3.fromRGB(255, 255, 255)
